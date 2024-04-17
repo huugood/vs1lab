@@ -26,11 +26,22 @@
             <h2>Tagging</h2>
 
             <!-- ############### VS1Lab 1a Form 1 Start -->
-            <form id="tag-form" action="/tagging" method="post">
+            <fieldset>
+                <legend>Add a new GeoTag</legend>
+                <form id="tag-form" action="/tagging" method="post">
 
-                <!-- ... your code here ... -->
+                    <label for="lati">Latitude: </label>
+                    <input type="text" name="latitude" id="lati" value="49.01379" readonly>
+                    <label for="long">Longitude: </label>
+                    <input type="text" name="longitude" id="long" value="8.390071" readonly>
+                    <label for="name">Name: </label>
+                    <input type="text" name="name" id="name" placeholder="e.g. Berlin" pattern="[A-Z][a-z]+" maxlength="10" required>
+                    <label for="hash">Hashtag: </label>
+                    <input type="text" name="hashtag" id="hash" placeholder="#edu" pattern="#([A-Z][a-z]*|[a-z]*)" maxlength="11" required>
+                    <input type="submit" value="Add Tag">
 
-            </form>
+                </form>
+            </fieldset>
             <!-- ############### VS1Lab 1a Form 1 End -->
 
         </section>
@@ -39,11 +50,19 @@
             <h2 class="discovery__title">Discovery</h2>
 
             <!-- ############### VS1Lab 1a Form 2 Start -->
-            <form class="discovery__search" id="discoveryFilterForm" action="/discovery" method="post">
+            <fieldset>
+                <legend>Search</legend>
+                <form class="discovery__search" id="discoveryFilterForm" action="/discovery" method="post">
 
-                <!-- ... your code here ... -->
-
-            </form>
+                    <label for="sear">Search term or keywords: </label>
+                    <input type="text" name="search" id="sear" placeholder="e.g. Berlin" required>
+                    <input type="text" name="latitude" id="lati" hidden>
+                    <input type="text" name="longitude" id="long" hidden>
+                    <input type="submit" value="Search">
+    
+                </form>
+            </fieldset>
+           
             <!-- ############### VS1Lab 1a Form 2 End -->
 
             <div class="discovery__wrapper">
