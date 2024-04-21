@@ -29,10 +29,10 @@
             <form id="tag-form" action="/tagging" method="post">
                 <fieldset>
                     <legend>Add a new GeoTag</legend>
-                    <label>Latitude:<input type="number" id="latitude-input" name="latitude" placeholder="49.01379"></label>
-                    <label>Longitude:<input type="number" id="longitude-input" name="longitude" placeholder="8.390071"></label>
-                    <label>Name:<input type="text" id="name-input" name="name" placeholder="HSaF"></label>
-                    <label>Hashtag:<input type="text" id="hashtag-input" name="hashtag" placeholder="#hsaf"></label>
+                    <label>Latitude:<input type="number" id="latitude-input" name="latitude" placeholder="49.01379" readonly></label>
+                    <label>Longitude:<input type="number" id="longitude-input" name="longitude" placeholder="8.390071" readonly></label>
+                    <label>Name:<input type="text" id="name-input" name="name" placeholder="HSaF" required></label>
+                    <label>Hashtag:<input type="text" id="hashtag-input" name="hashtag" placeholder="#hsaf" pattern="^#.{1,10}$"></label>
                     <input type="submit" id="add-tag-submit" value="Add Tag">
                 </fieldset>
             </form>
