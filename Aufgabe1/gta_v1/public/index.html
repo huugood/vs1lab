@@ -31,8 +31,8 @@
                     <legend>Add a new GeoTag</legend>
                     <label>Latitude:<input type="number" id="latitude-input" name="latitude" placeholder="49.01379" readonly></label>
                     <label>Longitude:<input type="number" id="longitude-input" name="longitude" placeholder="8.390071" readonly></label>
-                    <label>Name:<input type="text" id="name-input" name="name" placeholder="HSaF" required></label>
-                    <label>Hashtag:<input type="text" id="hashtag-input" name="hashtag" placeholder="#hsaf" pattern="^#.{1,10}$"></label>
+                    <label>Name:<input type="text" id="name-input" name="name" placeholder="HSaF" pattern="[a-zA-Z]{1,10}$" required></label>
+                    <label>Hashtag:<input type="text" id="hashtag-input" name="hashtag" placeholder="#hsaf" pattern="^#[a-zA-Z]{1,10}$"></label>
                     <label><input type="submit" id="add-tag-submit" value="Add Tag"></label>
                 </fieldset>
             </form>
@@ -50,6 +50,8 @@
                     <label for="search-input" hidden>Search term or keywords:</label>
                     <input type="text" id="search-input" name="search" placeholder="Karlsruhe">
                     <input type="submit" id="search-submit" value="Search">
+                    <input type="hidden" id="discovery-latitude" name="discovery-latitude" value="49.301">
+                    <input type="hidden" id="discovery-longitude" name="discovery-longitude" value="9.34321">
                 </fieldset>
 
             </form>
