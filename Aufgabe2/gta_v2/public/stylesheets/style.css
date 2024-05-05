@@ -1,0 +1,367 @@
+/*
+  File origin: VS1LAB A1b  
+
+  CSS style is BEM. Classes used for CSS, IDs for JavaScript querying (future use).
+  CSS variables used for clarity and themability (e.g. through SSR). 
+  Inherited box sizing used for ease of including 3rd party content-box components.
+*/
+
+/* Global styling */
+
+html {
+  box-sizing: border-box;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+
+  /* This approach prevents issues with 3rd party content-box components */
+  box-sizing: inherit;
+}
+
+
+/* Variables (example: see declaration for "a" below) */
+
+:root {
+  --link-color: #00B7FF;
+  --background-color: #efefef;
+  --border-color: #cdcdcd;
+  --gray-color: #666;
+}
+
+
+/* HTML element styles */
+
+body {
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+a {
+  color: var(--link-color);
+}
+
+/* Grid styles (no changes required) */
+
+.row {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  flex: 1;
+}
+
+.col-1 {
+  width: calc(8.33% - 1rem);
+}
+
+.col-2 {
+  width: calc(16.66% - 1rem);
+}
+
+.col-3 {
+  width: calc(25% - 1rem);
+}
+
+.col-4 {
+  width: calc(33.33% - 1rem);
+}
+
+.col-5 {
+  width: calc(41.66% - 1rem);
+}
+
+.col-6 {
+  width: calc(50% - 1rem);
+}
+
+.col-7 {
+  width: calc(58.33% - 1rem);
+}
+
+.col-8 {
+  width: calc(66.66% - 1rem);
+}
+
+.col-9 {
+  width: calc(75% - 1rem);
+}
+
+.col-10 {
+  width: calc(83.33% - 1rem);
+}
+
+.col-11 {
+  width: calc(91.66% - 1rem);
+}
+
+.col-12 {
+  width: calc(100% - 1rem);
+}
+
+.header__image {
+  height: 48px;
+  width: 48px;
+  object-fit: contain;
+}
+
+.header {
+  display: flex;
+  flex-direction: row;
+  height: 6rem;
+  justify-content: space-between;
+  align-items: center;
+  background-color: var(--background-color);
+  padding: 0 2rem;
+}
+
+.footer {
+  height: 6rem;
+  width: 100%;
+  position: absolute;
+  bottom: 0;
+  background: var(--background-color);
+  display: flex;
+  align-items: center;
+  padding-left: 5rem;
+}
+
+/* ... your code here ... */
+
+body {
+  min-height: 100vh;
+  position: relative;
+}
+
+.main {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  margin-top: 30px;
+  padding-bottom: 6rem;
+}
+
+.main__tagging {
+  display: flex;
+  flex-direction: column;
+  width: 270px;
+  margin-right: 30px;
+}
+
+.fieldset-tagging {
+  display: flex;
+  flex-direction: column;
+}
+
+.fieldset-tagging > * {
+  margin-left: 1rem;
+  margin-right: 1rem;
+  margin-top: 1rem;
+}
+
+.fieldset-tagging > *:last-child {
+  margin-bottom: 1rem;
+}
+
+.fieldset-tagging input {
+  display: block;
+  padding: 0.5rem 0.5rem;
+  width: 100%;
+}
+
+/* ... your code here ... */
+
+
+.fieldset-search {
+  display: flex;
+  flex-direction: column;
+}
+
+.main__discovery {
+  display: flex;
+  flex-direction: column;
+  width: calc(930px - 4px);
+}
+
+.discovery__wrapper {
+  display: flex;
+  flex-direction: row;
+  margin-top: 30px;
+}
+
+.discovery__taglist {
+  width: 330px;
+}
+
+.discovery__map {
+  margin-left: 30px;
+}
+
+.discovery__map img {
+  width: 600px;
+  height: 500px;
+  object-fit: cover;
+}
+
+.discovery__results > * {
+  list-style-type: none;
+  padding: 1rem;
+  border: solid var(--border-color);
+  background: var(--background-color);
+  color: var(--link-color);
+  margin-bottom: 1rem;
+}
+
+.discovery__results {
+  margin-top: 15px;
+}
+
+.discovery__results > *:hover {
+  cursor: pointer;
+}
+
+.fieldset-search > * {
+  margin-left: 1rem;
+  margin-right: 1rem;
+  margin-top: 1rem;
+}
+
+.fieldset-search > *:last-child {
+  margin-bottom: 1rem;
+}
+
+.fieldset-search input {
+  width: 15rem;
+  display: block;
+  padding: 0.5rem 0.5rem;
+}
+
+#map {
+  height: 500px;
+  width: 600px;
+}
+
+@media screen and (max-width: 1300px) {
+  .main {
+    flex-direction: column;
+    align-items: center;
+    padding-left: 15px;
+    padding-right: 15px;
+  }
+
+  .main__tagging {
+    margin-right: 0;
+  }
+
+  .fieldset-tagging {
+    flex-direction: row;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+  }
+
+  .fieldset-tagging > * {
+    margin-top: 0;
+  }
+
+  .fieldset-tagging > *:last-child {
+    margin-bottom: 0;
+    display: flex;
+    align-items: center;
+  }
+
+  .main__tagging {
+    width: 930px;
+  }
+
+  .main__discovery {
+    width: 930px;
+    margin-top: 30px;
+  }
+
+  .fieldset-search {
+    flex-direction: row;
+    padding-bottom: 1rem;
+    padding-top: 1rem;
+    align-items: center;
+  }
+
+  .fieldset-search > * {
+    margin-top: 0;
+  }
+
+  .fieldset-search > *:last-child {
+    margin-bottom: 0;
+  }
+
+  @media screen and (max-width: 1000px) {
+    .main__tagging {
+      width: 100%;
+    }
+
+    .fieldset-tagging {
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .fieldset-tagging > label {
+      width: 10rem;
+      margin-top: 0.5rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .main__discovery {
+      width: 100%;
+    }
+
+    .fieldset-search {
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .fieldset-search > * {
+      margin-top: 0.5rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .discovery__wrapper {
+      flex-direction: column;
+    }
+
+    .discovery__taglist {
+      width: 100%;
+    }
+
+    .discovery__results {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+    }
+
+    .discovery__results > * {
+      width: 15rem;
+      margin-right: 1rem;
+    }
+
+    .discovery__results > *:last-child {
+      margin-right: 0;
+    }
+
+    .discovery__map {
+      width: 100%;
+      height: 100%;
+      margin-left: 0;
+    }
+
+    .discovery__map img {
+      width: 100%;
+      height: auto;
+    }
+
+    #map {
+      height: 50vh;
+      width: 100%;
+    }
+  }
+}
