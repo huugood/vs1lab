@@ -238,6 +238,11 @@ body {
   padding: 0.5rem 0.5rem;
 }
 
+#map {
+  height: 500px;
+  width: 600px;
+}
+
 @media screen and (max-width: 1300px) {
   .main {
     flex-direction: column;
@@ -352,6 +357,11 @@ body {
     .discovery__map img {
       width: 100%;
       height: auto;
+    }
+
+    #map {
+      height: 50vh;
+      width: 100%;
     }
   }
 }
