@@ -41,7 +41,7 @@ const geoTagStore = new GeoTagStore();
  */
 
 router.get('/', (req, res) => {
-  res.render('index', { taglist: [], latitude: '', longitude: '' })
+  res.render('index', { taglist: [], latitude: '', longitude: '', search: '' })
 });
 
 /**
@@ -61,7 +61,7 @@ router.get('/', (req, res) => {
 
 router.post('/tagging', (req, res) => {
   geoTagStore.addGeoTag(new GeoTag(req.body.name, new LocationHelper(req.body.latitude, req.body.longitude), req.body.hashtag));
-  res.render('index', { taglist: geoTagStore.getNearbyGeoTag(req.body.latitude, req.body.longitude), latitude: req.body.discovery_latitude, longitude: req.body.discovery_longitude });
+  res.render('index', { taglist: geoTagStore.getNearbyGeoTag(req.body.latitude, req.body.longitude), latitude: req.body.discovery_latitude, longitude: req.body.discovery_longitude, search: '' });
 })
 
 /**
@@ -82,9 +82,9 @@ router.post('/tagging', (req, res) => {
 
 router.post('/discovery', (req, res) => {
   if (req.body.discovery_search === '') {
-    res.render('index', { taglist: geoTagStore.getNearbyGeoTag(req.body.discovery_latitude, req.body.discovery_longitude), latitude: req.body.discovery_latitude, longitude: req.body.discovery_longitude });
+    res.render('index', { taglist: geoTagStore.getNearbyGeoTag(req.body.discovery_latitude, req.body.discovery_longitude), latitude: req.body.discovery_latitude, longitude: req.body.discovery_longitude, search: '' });
   } else {
-    res.render('index', { taglist: geoTagStore.searchNearbyGeoTag(req.body.discovery_latitude, req.body.discovery_longitude, req.body.discovery_search), latitude: req.body.discovery_latitude, longitude: req.body.discovery_longitude })
+    res.render('index', { taglist: geoTagStore.searchNearbyGeoTag(req.body.discovery_latitude, req.body.discovery_longitude, req.body.discovery_search), latitude: req.body.discovery_latitude, longitude: req.body.discovery_longitude, search: req.body.discovery_search })
   }
 
 })

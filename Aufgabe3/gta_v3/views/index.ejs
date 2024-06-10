@@ -55,10 +55,10 @@
             <fieldset class="fieldset-search">
                 <legend>Search</legend>
                 <label for="search-input" hidden>Search term or keywords:</label>
-                <input type="text" id="search-input" name="discovery_search" placeholder="Karlsruhe">
+                <input type="text" id="search-input" name="discovery_search" placeholder="Karlsruhe" value="<%= search ? search : '' %>">
+                <input type="hidden" id="discovery-latitude" name="discovery_latitude" value="<%- latitude ? latitude : '' %>">
+                <input type="hidden" id="discovery-longitude" name="discovery_longitude" value="<%- longitude ? longitude : '' %>">
                 <input type="submit" id="search-submit" value="Search">
-                <input type="hidden" id="discovery-latitude" name="discovery_latitude" value="<%if (latitude !== undefined) "latitude" %>">
-                <input type="hidden" id="discovery-longitude" name="discovery_longitude" value="<%if (longitude !== undefined) "longitude" %>">
             </fieldset>
 
         </form>
