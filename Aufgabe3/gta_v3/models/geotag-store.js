@@ -5,6 +5,10 @@
  * Complete all TODOs in the code documentation.
  */
 
+const geo = require("ejs");
+const GeoTag = require("./geotag");
+const {tagList} = require("./geotag-examples");
+
 /**
  * A class for in-memory-storage of geotags
  * 
@@ -24,9 +28,40 @@
  * - Keyword matching should include partial matches from name or hashtag fields. 
  */
 class InMemoryGeoTagStore{
+    #geoTags = [];
 
-    // TODO: ... your code here ...
+    constructor() {
+        tagList.forEach(tag => {this.addGeoTag(new GeoTag(tag[0], tag[1], tag[2], tag[3]));});
+    }
 
+    addGeoTag(geoTag) {
+        this.#geoTags.push(geoTag);
+    }
+
+    removeGeoTag(name) {
+        this.#geoTags = this.#geoTags.filter((geoTag) => geoTag.name !== name);
+    }
+
+    getNearbyGeoTag(latitude, longitude) {
+        const rad = 1.555;
+        return this.#geoTags.filter((geoTag) =>
+            (Math.abs(geoTag.longitude - longitude) <= rad) &&
+                (Math.abs(geoTag.latitude - latitude) <= rad)
+        );
+    }
+
+    searchNearbyGeoTag(latitude, longitude, search) {
+        return this.getNearbyGeoTag(latitude, longitude).filter((geoTag) =>
+            search.toLowerCase().includes(geoTag.name.toLowerCase()) ||
+            search.toLowerCase().includes(geoTag.hashtag.toLowerCase()) ||
+            geoTag.name.toLowerCase().includes(search.toLowerCase()) ||
+            geoTag.hashtag.toLowerCase().includes(search.toLowerCase())
+        );
+    }
+
+    get geoTags() {
+        return this.#geoTags;
+    }
 }
 
 module.exports = InMemoryGeoTagStore

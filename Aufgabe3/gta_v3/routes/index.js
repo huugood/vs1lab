@@ -17,7 +17,6 @@ const router = express.Router();
  * The module "geotag" exports a class GeoTagStore. 
  * It represents geotags.
  * 
- * TODO: implement the module in the file "../models/geotag.js"
  */
 // eslint-disable-next-line no-unused-vars
 const GeoTag = require('../models/geotag');
@@ -26,10 +25,11 @@ const GeoTag = require('../models/geotag');
  * The module "geotag-store" exports a class GeoTagStore. 
  * It provides an in-memory store for geotag objects.
  * 
- * TODO: implement the module in the file "../models/geotag-store.js"
  */
 // eslint-disable-next-line no-unused-vars
 const GeoTagStore = require('../models/geotag-store');
+const {taglist} = require("../models/geotag-examples");
+const geoTagStore = new GeoTagStore();
 
 /**
  * Route '/' for HTTP 'GET' requests.
@@ -40,14 +40,13 @@ const GeoTagStore = require('../models/geotag-store');
  * As response, the ejs-template is rendered without geotag objects.
  */
 
-// TODO: extend the following route example if necessary
 router.get('/', (req, res) => {
-  res.render('index', { taglist: [] })
+  res.render('index', { taglist: [], latitude: '', longitude: '' })
 });
 
 /**
  * Route '/tagging' for HTTP 'POST' requests.
- * (http://expressjs.com/de/4x/api.html#app.post.method)
+ * (https://expressjs.com/de/4x/api.html#app.post.method)
  *
  * Requests cary the fields of the tagging form in the body.
  * (http://expressjs.com/de/4x/api.html#req.body)
@@ -60,7 +59,10 @@ router.get('/', (req, res) => {
  * by radius around a given location.
  */
 
-// TODO: ... your code here ...
+router.post('/tagging', (req, res) => {
+  geoTagStore.addGeoTag(new GeoTag(req.body.name, new LocationHelper(req.body.latitude, req.body.longitude), req.body.hashtag));
+  res.render('index', { taglist: geoTagStore.getNearbyGeoTag(req.body.latitude, req.body.longitude), latitude: req.body.discovery_latitude, longitude: req.body.discovery_longitude });
+})
 
 /**
  * Route '/discovery' for HTTP 'POST' requests.
@@ -78,6 +80,13 @@ router.get('/', (req, res) => {
  * by radius and keyword.
  */
 
-// TODO: ... your code here ...
+router.post('/discovery', (req, res) => {
+  if (req.body.discovery_search === '') {
+    res.render('index', { taglist: geoTagStore.getNearbyGeoTag(req.body.discovery_latitude, req.body.discovery_longitude), latitude: req.body.discovery_latitude, longitude: req.body.discovery_longitude });
+  } else {
+    res.render('index', { taglist: geoTagStore.searchNearbyGeoTag(req.body.discovery_latitude, req.body.discovery_longitude, req.body.discovery_search), latitude: req.body.discovery_latitude, longitude: req.body.discovery_longitude })
+  }
+
+})
 
 module.exports = router;

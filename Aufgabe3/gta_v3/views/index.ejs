@@ -36,8 +36,8 @@
         <form id="tag-form" action="/tagging" method="post">
             <fieldset class="fieldset-tagging">
                 <legend>Add a new GeoTag</legend>
-                <label>Latitude:<input type="number" id="latitude-input" name="latitude" placeholder="49.01379" readonly></label>
-                <label>Longitude:<input type="number" id="longitude-input" name="longitude" placeholder="8.390071" readonly></label>
+                <label>Latitude:<input type="number" id="latitude-input" name="latitude" placeholder="49.01379" value="<%if (latitude !== undefined) latitude %>" readonly></label>
+                <label>Longitude:<input type="number" id="longitude-input" name="longitude" placeholder="8.390071" value="<%if (longitude !== undefined) longitude %>" readonly></label>
                 <label>Name:<input type="text" id="name-input" name="name" placeholder="HSaF" pattern="[a-zA-Z]{1,10}$" required></label>
                 <label>Hashtag:<input type="text" id="hashtag-input" name="hashtag" placeholder="#hsaf" pattern="^#[a-zA-Z]{1,10}$"></label>
                 <label><input type="submit" id="add-tag-submit" value="Add Tag"></label>
@@ -55,10 +55,10 @@
             <fieldset class="fieldset-search">
                 <legend>Search</legend>
                 <label for="search-input" hidden>Search term or keywords:</label>
-                <input type="text" id="search-input" name="search" placeholder="Karlsruhe">
+                <input type="text" id="search-input" name="discovery_search" placeholder="Karlsruhe">
                 <input type="submit" id="search-submit" value="Search">
-                <input type="hidden" id="discovery-latitude" name="discovery-latitude" value="49.301">
-                <input type="hidden" id="discovery-longitude" name="discovery-longitude" value="9.34321">
+                <input type="hidden" id="discovery-latitude" name="discovery_latitude" value="<%if (latitude !== undefined) "latitude" %>">
+                <input type="hidden" id="discovery-longitude" name="discovery_longitude" value="<%if (longitude !== undefined) "longitude" %>">
             </fieldset>
 
         </form>
@@ -67,13 +67,13 @@
         <div class="discovery__wrapper">
             <div class="discovery__taglist">
                 <ul class="discovery__results" id="discoveryResults">
-                    <% if (taglist !== undefined) taglist.forEach(function(gtag) { %>
+                    <% if (taglist !== undefined) taglist.forEach(gtag => { %>
                         <li><%= gtag.name %> ( <%= gtag.latitude %>,<%= gtag.longitude %>) <%= gtag.hashtag %> </li>
                     <% }); %>
                 </ul>
             </div>
 
-            <div class="discovery__map" id="map">
+            <div class="discovery__map" id="map" data-tags='<%- JSON.stringify(taglist) %>'>
                 <img src="./images/mapview.jpg" alt="a map with locations" id="mapView" />
                 <span id="map-descr">Result map</span>
             </div>
@@ -89,6 +89,8 @@
     ================================================== -->
 <!-- Placed at the end of the document so the pages load faster -->
 <script src="./javascripts/geotagging.js"></script>
+<script src="./javascripts/location-helper.js"></script>
+<script src="./javascripts/map-manager.js"></script>
 </body>
 
 </html>

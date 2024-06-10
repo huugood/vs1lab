@@ -5,14 +5,27 @@
  * Complete all TODOs in the code documentation.
  */
 
-/** * 
+const {name} = require("ejs");
+
+/** *
  * A class representing geotags.
  * GeoTag objects should contain at least all fields of the tagging form.
  */
 class GeoTag {
+    constructor(name, latitude, longitude, hashtag) {
+        this.name = name;
+        this.longitude = longitude;
+        this.latitude = latitude;
+        this.hashtag = hashtag;
+        this.location = new Location(latitude, longitude);
+    }
 
-    // TODO: ... your code here ...
-    
 }
 
+class Location {
+    constructor(latitude, longitude) {
+        this.latitude = latitude;
+        this.longitude = longitude;
+    }
+}
 module.exports = GeoTag;
