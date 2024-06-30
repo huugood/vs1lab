@@ -29,20 +29,45 @@ const {tagList} = require("./geotag-examples");
  */
 class InMemoryGeoTagStore{
     #geoTags = [];
-    #id_counter = 0;
+    #id_counter = 1;
 
     constructor() {
         tagList.forEach(tag => {this.addGeoTag(tag[0], tag[1], tag[2], tag[3])});
-        console.log(this.#geoTags);
     }
 
     addGeoTag(name, latitude, longitude, hashtag) {
         this.#geoTags.push(new GeoTag(name, latitude, longitude, hashtag, this.#id_counter++));
-        console.log(this.#geoTags);
+    }
+
+    newGeoTag(name, latitude, longitude, hashtag) {
+        this.#geoTags.push(new GeoTag(name, latitude, longitude, hashtag, this.#id_counter));
+        return this.getGeoTagByID(this.#id_counter++);
+    }
+
+    updateGeoTag(name, latitude, longitude, hashtag, id) {
+        let tag = this.getGeoTagByID(id);
+        if (tag !== undefined) {
+            tag.name = name;
+            tag.latitude = latitude;
+            tag.longitude = longitude;
+            tag.hashtag = hashtag;
+            return tag;
+        } else {
+            return undefined;
+        }
     }
 
     removeGeoTag(name) {
         this.#geoTags = this.#geoTags.filter((geoTag) => geoTag.name !== name);
+    }
+
+    removeGeoTagByID(id) {
+        let tag = this.getGeoTagByID(id);
+        if (tag !== undefined) {
+            tag = JSON.stringify(tag);
+            this.#geoTags = this.#geoTags.filter((geoTag) => geoTag.id != id);
+        }
+        return tag;
     }
 
     getNearbyGeoTag(latitude, longitude) {
@@ -54,16 +79,28 @@ class InMemoryGeoTagStore{
     }
 
     searchNearbyGeoTag(latitude, longitude, search) {
-        return this.getNearbyGeoTag(latitude, longitude).filter((geoTag) =>
-            search.toLowerCase().includes(geoTag.name.toLowerCase()) ||
-            search.toLowerCase().includes(geoTag.hashtag.toLowerCase()) ||
-            geoTag.name.toLowerCase().includes(search.toLowerCase()) ||
-            geoTag.hashtag.toLowerCase().includes(search.toLowerCase())
-        );
+        return this.filterGeotag(search, this.getNearbyGeoTag(latitude, longitude));
     }
 
     get geoTags() {
         return this.#geoTags;
+    }
+
+    searchGeoTag(search) {
+        return this.filterGeotag(search, this.geoTags);
+    }
+
+    filterGeotag(search, geoTags) {
+        return geoTags.filter((geoTag) =>
+            search.toLowerCase().includes(geoTag.name.toLowerCase()) ||
+            search.toLowerCase().includes(geoTag.hashtag.toLowerCase()) ||
+            geoTag.name.toLowerCase().includes(search.toLowerCase()) ||
+            geoTag.hashtag.toLowerCase().includes(search.toLowerCase())
+        )
+    }
+
+    getGeoTagByID(id) {
+        return this.#geoTags.find((tag) => tag.id == id);
     }
 }
 

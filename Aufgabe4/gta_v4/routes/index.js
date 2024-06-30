@@ -73,12 +73,20 @@ router.post('/discovery', (req, res) => {
  */
 
 router.get('/api/geotags', (req, res) => {
-  console.log(req.query);
-  res.json(geoTagStore.getNearbyGeoTag(req.query.latitude, req.query.longitude));
+  let result;
+  let latitude = req.query.latitude;
+  let longitude = req.query.longitude;
+  let searchterm = req.query.searchterm;
+  if (latitude !== undefined && longitude !== undefined) {
+    result = geoTagStore.getNearbyGeoTag(latitude, longitude);
+  } else {
+    result = geoTagStore.geoTags;
+  }
+  if (searchterm !== undefined) {
+    result = geoTagStore.filterGeotag(searchterm, result);
+  }
+  res.json(result);
 })
-
-// TODO: ... your code here ...
-
 
 /**
  * Route '/api/geotags' for HTTP 'POST' requests.
@@ -91,7 +99,23 @@ router.get('/api/geotags', (req, res) => {
  * The new resource is rendered as JSON in the response.
  */
 
-// TODO: ... your code here ...
+router.post('/api/geotags', (req, res) => {
+  let name = req.body.name;
+  let latitude = req.body.latitude;
+  let longitude = req.body.longitude;
+  let hashtag = req.body.hashtag;
+
+  if (name !== undefined && /^[a-zA-Z]{1,10}$/.test(name) &&
+      latitude !== undefined && /^-?([0-8]?[0-9]|90)(\.[0-9]{1,10})$/.test(latitude) &&
+      longitude !== undefined && /^-?([0-9]{1,2}|1[0-7][0-9]|180)(\.[0-9]{1,10})$/.test(longitude) &&
+      hashtag !== undefined && /^#[a-zA-Z]{1,10}$/.test(hashtag)
+  ) {
+    let newGeotag = geoTagStore.newGeoTag(name, latitude, longitude, hashtag);
+    res.status(201).json(newGeotag);
+  } else {
+    res.status(404).send("Not found!");
+  }
+})
 
 
 /**
@@ -104,7 +128,15 @@ router.get('/api/geotags', (req, res) => {
  * The requested tag is rendered as JSON in the response.
  */
 
-// TODO: ... your code here ...
+router.get('/api/geotags/:id', (req, res) => {
+  let id = req.params.id.slice(1);
+  if (id !== undefined) {
+    let tag = geoTagStore.getGeoTagByID(id);
+    if (tag !== undefined) {
+      res.json(tag);
+    } else res.status(404).send('Not Found');
+  } else res.status(404).send("Error");
+})
 
 
 /**
@@ -121,7 +153,27 @@ router.get('/api/geotags', (req, res) => {
  * The updated resource is rendered as JSON in the response. 
  */
 
-// TODO: ... your code here ...
+router.put('/api/geotags/:id', (req, res) => {
+  let id = req.params.id.slice(1);
+  let name = req.body.name;
+  let latitude = req.body.latitude;
+  let longitude = req.body.longitude;
+  let hashtag = req.body.hashtag;
+
+  if (name !== undefined && /^[a-zA-Z]{1,10}$/.test(name) &&
+      latitude !== undefined && /^-?([0-8]?[0-9]|90)(\.[0-9]{1,10})$/.test(latitude) &&
+      longitude !== undefined && /^-?([0-9]{1,2}|1[0-7][0-9]|180)(\.[0-9]{1,10})$/.test(longitude) &&
+      hashtag !== undefined && /^#[a-zA-Z]{1,10}$/.test(hashtag) &&
+      id !== undefined
+  ) {
+    let updatedGeotag = geoTagStore.updateGeoTag(name, latitude, longitude, hashtag, id);
+    if (updatedGeotag !== undefined) res.status(201).json(updatedGeotag);
+    else res.status(404).send("Not Found");
+  } else {
+    res.status(404).send("Not found!");
+  }
+
+})
 
 
 /**
@@ -135,6 +187,15 @@ router.get('/api/geotags', (req, res) => {
  * The deleted resource is rendered as JSON in the response.
  */
 
-// TODO: ... your code here ...
+router.delete('/api/geotags/:id', (req, res) => {
+  let id = req.params.id.slice(1);
+  let removedTag = geoTagStore.removeGeoTagByID(id);
+  console.log(removedTag);
+  if (removedTag !== undefined) {
+    res.status(200).json(JSON.parse(removedTag));
+  } else {
+    res.status(204).send();
+  }
+})
 
 module.exports = router;
