@@ -105,7 +105,7 @@ class MapManager {
             .bindPopup("Your Location")
             .addTo(this.#markers);
         for (const tag of tags) {
-            L.marker([tag.location.latitude,tag.location.longitude])
+            L.marker([tag.latitude,tag.longitude])
                 .bindPopup(tag.name)
                 .addTo(this.#markers);  
         }

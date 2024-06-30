@@ -45,7 +45,7 @@ router.get('/', (req, res) => {
 });
 
 router.post('/tagging', (req, res) => {
-  geoTagStore.addGeoTag(new GeoTag(req.body.name, new LocationHelper(req.body.latitude, req.body.longitude), req.body.hashtag));
+  geoTagStore.addGeoTag(req.body.name, req.body.latitude, req.body.longitude, req.body.hashtag);
   res.render('index', { taglist: geoTagStore.getNearbyGeoTag(req.body.latitude, req.body.longitude), latitude: req.body.discovery_latitude, longitude: req.body.discovery_longitude, search: '' });
 })
 
@@ -62,7 +62,7 @@ router.post('/discovery', (req, res) => {
 
 /**
  * Route '/api/geotags' for HTTP 'GET' requests.
- * (http://expressjs.com/de/4x/api.html#app.get.method)
+ * (https://expressjs.com/de/4x/api.html#app.get.method)
  *
  * Requests contain the fields of the Discovery form as query.
  * (http://expressjs.com/de/4x/api.html#req.query)
@@ -71,6 +71,11 @@ router.post('/discovery', (req, res) => {
  * If 'searchterm' is present, it will be filtered by search term.
  * If 'latitude' and 'longitude' are available, it will be further filtered based on radius.
  */
+
+router.get('/api/geotags', (req, res) => {
+  console.log(req.query);
+  res.json(geoTagStore.getNearbyGeoTag(req.query.latitude, req.query.longitude));
+})
 
 // TODO: ... your code here ...
 
